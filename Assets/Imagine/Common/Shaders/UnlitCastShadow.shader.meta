@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 524480ff7e9aa4cff941522dcecddf54
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  preprocessorOverride: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 240128
+  packageName: Imagine WebAR - Image Tracker
+  packageVersion: 1.8.2
+  assetPath: Assets/Imagine/Common/Shaders/UnlitCastShadow.shader
+  uploadId: 825392

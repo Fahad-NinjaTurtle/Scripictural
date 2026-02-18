@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 795d2669f677e4fe7b267f997be11873
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 240128
+  packageName: Imagine WebAR - Image Tracker
+  packageVersion: 1.8.2
+  assetPath: Assets/Imagine/Common/Models/ARCamGizmo.mesh
+  uploadId: 825392

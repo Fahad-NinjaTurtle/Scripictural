@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: ae5db75e95bcd46dfb3050d474fc68dd
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 240128
+  packageName: Imagine WebAR - Image Tracker
+  packageVersion: 1.8.2
+  assetPath: Assets/Imagine/ImageTracker/Demos/Scenes/Demo-TextureExtraction.unity
+  uploadId: 825392

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 91e0e03de9913446ea3dcbd5330f4ee0
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 4300000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 240128
+  packageName: Imagine WebAR - Image Tracker
+  packageVersion: 1.8.2
+  assetPath: Assets/Imagine/ImageTracker/Demos/Imagetargets/Meshes/bfly Mesh.asset
+  uploadId: 825392

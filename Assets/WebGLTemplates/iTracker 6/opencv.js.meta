@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 188c7b662352649a09a2525a8d4b5dbe
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 240128
+  packageName: Imagine WebAR - Image Tracker
+  packageVersion: 1.8.2
+  assetPath: Assets/WebGLTemplates/iTracker 6/opencv.js
+  uploadId: 825392

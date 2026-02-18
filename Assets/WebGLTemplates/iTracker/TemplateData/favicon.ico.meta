@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: a280d8ce280f940e685090fe1ffca1cb
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 240128
+  packageName: Imagine WebAR - Image Tracker
+  packageVersion: 1.8.2
+  assetPath: Assets/WebGLTemplates/iTracker/TemplateData/favicon.ico
+  uploadId: 825392

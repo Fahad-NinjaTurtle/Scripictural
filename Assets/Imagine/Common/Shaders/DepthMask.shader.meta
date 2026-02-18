@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 8349beba548af41f38122d7a2f4ac2d8
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  preprocessorOverride: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 240128
+  packageName: Imagine WebAR - Image Tracker
+  packageVersion: 1.8.2
+  assetPath: Assets/Imagine/Common/Shaders/DepthMask.shader
+  uploadId: 825392

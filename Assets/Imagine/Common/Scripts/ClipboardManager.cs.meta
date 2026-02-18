@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 8713622a5478848c38e11bb6400ad1bf
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 240128
+  packageName: Imagine WebAR - Image Tracker
+  packageVersion: 1.8.2
+  assetPath: Assets/Imagine/Common/Scripts/ClipboardManager.cs
+  uploadId: 825392

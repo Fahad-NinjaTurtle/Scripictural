@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 420fc58afc8e04945bc9f216e8d8a592
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 240128
+  packageName: Imagine WebAR - Image Tracker
+  packageVersion: 1.8.2
+  assetPath: Assets/Imagine/Common/Scripts/Editor/PostProcessBuild_ARCam.cs
+  uploadId: 825392

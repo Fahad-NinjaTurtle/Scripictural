@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: f3e1639cf5b9946309ec0db544c86939
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 4300000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 240128
+  packageName: Imagine WebAR - Image Tracker
+  packageVersion: 1.8.2
+  assetPath: Assets/Imagine/ImageTracker/Demos/Imagetargets/Meshes/lady Mesh.asset
+  uploadId: 825392

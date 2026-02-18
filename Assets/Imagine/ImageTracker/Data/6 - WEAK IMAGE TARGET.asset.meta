@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 445b583e5873b49c2b6bec84c64d7c38
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 240128
+  packageName: Imagine WebAR - Image Tracker
+  packageVersion: 1.8.2
+  assetPath: Assets/Imagine/ImageTracker/Data/6 - WEAK IMAGE TARGET.asset
+  uploadId: 825392

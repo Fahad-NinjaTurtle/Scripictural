@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 9bf2a20737d8843d1acf6d8a37df9742
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 240128
+  packageName: Imagine WebAR - Image Tracker
+  packageVersion: 1.8.2
+  assetPath: Assets/Imagine/Common/Materials/VideoBG.mat
+  uploadId: 825392

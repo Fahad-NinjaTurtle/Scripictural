@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: db04aab696a90488eb1668765b1e0440
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 240128
+  packageName: Imagine WebAR - Image Tracker
+  packageVersion: 1.8.2
+  assetPath: Assets/Imagine/ImageTracker/Demos/Materials/mat-lady.mat
+  uploadId: 825392

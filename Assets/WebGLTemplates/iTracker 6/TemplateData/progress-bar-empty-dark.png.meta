@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 1c24b288f67be45fc9949a4536951d73
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 240128
+  packageName: Imagine WebAR - Image Tracker
+  packageVersion: 1.8.2
+  assetPath: Assets/WebGLTemplates/iTracker 6/TemplateData/progress-bar-empty-dark.png
+  uploadId: 825392

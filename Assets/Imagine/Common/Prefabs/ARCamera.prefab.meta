@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 042046df68dcf4595a63d904320e6eb4
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 240128
+  packageName: Imagine WebAR - Image Tracker
+  packageVersion: 1.8.2
+  assetPath: Assets/Imagine/Common/Prefabs/ARCamera.prefab
+  uploadId: 825392

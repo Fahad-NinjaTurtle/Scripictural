@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: d91cef614318845edb7134b08e70ce31
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 240128
+  packageName: Imagine WebAR - Image Tracker
+  packageVersion: 1.8.2
+  assetPath: Assets/WebGLTemplates/iTracker/TemplateData/webgl-logo.png
+  uploadId: 825392

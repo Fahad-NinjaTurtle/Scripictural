@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: fdbdd60f16a9642f1905d905bcdcc4a0
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 240128
+  packageName: Imagine WebAR - Image Tracker
+  packageVersion: 1.8.2
+  assetPath: Assets/Imagine/Common/Scripts/ScreenshotManager.cs
+  uploadId: 825392

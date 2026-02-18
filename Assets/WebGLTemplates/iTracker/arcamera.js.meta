@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 146950359eb5643e3b89ca30aaeb166d
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 240128
+  packageName: Imagine WebAR - Image Tracker
+  packageVersion: 1.8.2
+  assetPath: Assets/WebGLTemplates/iTracker/arcamera.js
+  uploadId: 825392

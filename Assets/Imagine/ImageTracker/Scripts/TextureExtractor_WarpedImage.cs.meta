@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: ee2cbe726dbd2473cb7d7e67e1145c7c
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 240128
+  packageName: Imagine WebAR - Image Tracker
+  packageVersion: 1.8.2
+  assetPath: Assets/Imagine/ImageTracker/Scripts/TextureExtractor_WarpedImage.cs
+  uploadId: 825392

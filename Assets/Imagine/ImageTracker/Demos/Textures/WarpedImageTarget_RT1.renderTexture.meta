@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 7459b191d4e304706a2431068d322b36
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 8400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 240128
+  packageName: Imagine WebAR - Image Tracker
+  packageVersion: 1.8.2
+  assetPath: Assets/Imagine/ImageTracker/Demos/Textures/WarpedImageTarget_RT1.renderTexture
+  uploadId: 825392

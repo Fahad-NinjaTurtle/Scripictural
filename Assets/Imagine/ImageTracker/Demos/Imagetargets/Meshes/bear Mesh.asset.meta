@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: e4d22077249cf46bb845091edce06318
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 4300000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 240128
+  packageName: Imagine WebAR - Image Tracker
+  packageVersion: 1.8.2
+  assetPath: Assets/Imagine/ImageTracker/Demos/Imagetargets/Meshes/bear Mesh.asset
+  uploadId: 825392

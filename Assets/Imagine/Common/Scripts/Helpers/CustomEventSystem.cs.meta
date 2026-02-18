@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: a78100ad9f49946e08c33de0ded87142
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 240128
+  packageName: Imagine WebAR - Image Tracker
+  packageVersion: 1.8.2
+  assetPath: Assets/Imagine/Common/Scripts/Helpers/CustomEventSystem.cs
+  uploadId: 825392

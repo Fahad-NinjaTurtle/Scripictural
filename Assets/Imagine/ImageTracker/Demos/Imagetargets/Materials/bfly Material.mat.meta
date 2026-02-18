@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 74652d58fa79849ba8d51d08cdbb805a
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 240128
+  packageName: Imagine WebAR - Image Tracker
+  packageVersion: 1.8.2
+  assetPath: Assets/Imagine/ImageTracker/Demos/Imagetargets/Materials/bfly Material.mat
+  uploadId: 825392

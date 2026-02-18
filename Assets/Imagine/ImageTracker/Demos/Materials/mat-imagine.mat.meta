@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: fcf37f37dcc824eeba49a1993efaadea
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 240128
+  packageName: Imagine WebAR - Image Tracker
+  packageVersion: 1.8.2
+  assetPath: Assets/Imagine/ImageTracker/Demos/Materials/mat-imagine.mat
+  uploadId: 825392
