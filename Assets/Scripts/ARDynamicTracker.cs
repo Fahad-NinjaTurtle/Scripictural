@@ -67,7 +67,6 @@ public class ARDynamicTracker : MonoBehaviour
     }
     private IEnumerator SetupARTarget(string imageUrl, string videoUrl)
     {
-        // same as DataPreloader's DownloadTexture
         Debug.Log("Downloading image: " + imageUrl);
         UnityWebRequest imageRequest = UnityWebRequestTexture.GetTexture(imageUrl);
         yield return imageRequest.SendWebRequest();
@@ -80,7 +79,6 @@ public class ARDynamicTracker : MonoBehaviour
 
         Texture2D texture = DownloadHandlerTexture.GetContent(imageRequest);
 
-        // create mutable library and add image
         MutableRuntimeReferenceImageLibrary mutableLibrary =
             trackedImageManager.CreateRuntimeLibrary() as MutableRuntimeReferenceImageLibrary;
 
@@ -90,13 +88,21 @@ public class ARDynamicTracker : MonoBehaviour
             yield break;
         }
 
-        string imageName = System.Guid.NewGuid().ToString(); // unique id for this image
+        string imageName = System.Guid.NewGuid().ToString();
         imageVideoMap[imageName] = videoUrl;
+
+        // calculate physical size based on aspect ratio
+        // set the width in meters to match your real printed image width
+        float physicalWidth = 0.1f; // adjust this to your real image width in meters
+        float aspect = (float)texture.height / texture.width;
+        // for portrait: height > width, so we pass width as the physical size
+        // AR Foundation uses the smaller dimension as reference
+        Vector2 physicalSize = new Vector2(physicalWidth, physicalWidth * aspect);
 
         var jobHandle = mutableLibrary.ScheduleAddImageWithValidationJob(
             texture,
             imageName,
-            0.1f // physical size in meters - adjust to your printed image size
+            physicalSize.x // AR Foundation uses width as the reference dimension
         );
 
         yield return new WaitUntil(() =>
@@ -109,14 +115,13 @@ public class ARDynamicTracker : MonoBehaviour
         {
             Debug.Log("Image added to AR library successfully.");
             trackedImageManager.referenceLibrary = mutableLibrary;
-            trackedImageManager.enabled = true; // now start tracking
+            trackedImageManager.enabled = true;
         }
         else
         {
             Debug.LogError("Failed to add image to AR library. Status: " + jobHandle.status);
         }
     }
-
     private void OnTrackedImagesChanged(ARTrackedImagesChangedEventArgs args)
     {
         foreach (var trackedImage in args.added)
@@ -132,8 +137,15 @@ public class ARDynamicTracker : MonoBehaviour
             if (trackedImage.trackingState == TrackingState.Tracking)
             {
                 go.SetActive(true);
-                go.transform.position = trackedImage.transform.position;
-                go.transform.rotation = trackedImage.transform.rotation;
+
+                Vector2 detectedSize = trackedImage.size;
+                RectTransform canvasRect = go.GetComponentInChildren<RectTransform>();
+                if (canvasRect != null)
+                {
+                    float scaleX = detectedSize.x / canvasRect.rect.width;
+                    float scaleY = detectedSize.y / canvasRect.rect.height;
+                    go.transform.localScale = new Vector3(scaleX, scaleY, scaleX);
+                }
             }
             else
             {
@@ -163,8 +175,26 @@ public class ARDynamicTracker : MonoBehaviour
 
         GameObject go = Instantiate(artworkPrefab, trackedImage.transform.position, trackedImage.transform.rotation);
         go.transform.SetParent(trackedImage.transform);
+        go.transform.localRotation = Quaternion.Euler(90f, 0f, 0f);
+        go.transform.localPosition = Vector3.zero;
 
-        // same as WebAR - reusing your existing VidPlayerUrl script
+        Vector2 detectedSize = trackedImage.size;
+        Debug.Log($"DetectedSize: {detectedSize}");
+
+        // get canvas and log everything
+        Canvas canvas = go.GetComponentInChildren<Canvas>();
+        RectTransform canvasRect = canvas != null ? canvas.GetComponent<RectTransform>() : null;
+
+        if (canvasRect != null)
+        {
+            Debug.Log($"Canvas RenderMode: {canvas.renderMode}");
+            Debug.Log($"CanvasRect size: {canvasRect.rect.width} x {canvasRect.rect.height}");
+            Debug.Log($"Canvas localScale before: {canvasRect.localScale}");
+        }
+
+        // scale the spawned GO to match detected image size
+        go.transform.localScale = new Vector3(detectedSize.x, detectedSize.y, detectedSize.x);
+
         VidPlayerUrl vidScript = go.GetComponentInChildren<VidPlayerUrl>();
         if (vidScript != null)
             vidScript.SetVideoUrl(videoUrl);
