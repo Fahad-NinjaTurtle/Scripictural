@@ -10,10 +10,11 @@ public class DataPreloader : MonoBehaviour
     private string baseUrl = "https://api.scripictural.tecshield.net//api/artworks/public/";
     private string apiId;
     private string apiUrl;
+    [SerializeField] GameObject txtGo;
     private void Start()
     {
         //StartCoroutine(GetApiResponse());
-
+        txtGo.gameObject.SetActive(true);
         OnArtworkIdReceived("698f0ecd52abbdb60de402f1");
     }
     public void OnArtworkIdReceived(string id)
@@ -72,6 +73,7 @@ public class DataPreloader : MonoBehaviour
         {
             Texture2D texture = DownloadHandlerTexture.GetContent(imageRequest);
             tracker.CreateRuntimeImageTarget(texture, videoUrl);
+            txtGo.SetActive(false);
         }
     }
 }

@@ -12,7 +12,7 @@ public class VidPlayerUrl : MonoBehaviour
     {
         TryPlayVideo();
 
-        if(true || Application.platform == RuntimePlatform.Android)
+        if(Application.platform == RuntimePlatform.Android)
         {
             videoDisplay.gameObject.transform.localScale = new Vector3(15, 19, 1);
             loading.gameObject.transform.localScale = new Vector3(15, 25, 1);
