@@ -179,18 +179,24 @@ namespace Imagine.WebAR
         {
             print("Creating target image");
 
+            // Only use pixel dims for aspect ratio, not for world size
+            float aspect = (float)texture.width / texture.height;
+
+            // World size: height always = 1 unit, width = aspect ratio
+            float worldHeight = 1f;
+            float worldWidth = aspect;
+
             GameObject newImageGo = new GameObject("TargetArtwork");
             newImageGo.transform.SetParent(this.transform);
             newImageGo.transform.localPosition = Vector3.zero;
             newImageGo.transform.localRotation = Quaternion.identity;
-            newImageGo.transform.localScale = new Vector3(1, 1, 1);
+            newImageGo.transform.localScale = Vector3.one;
 
             MeshFilter filter = newImageGo.AddComponent<MeshFilter>();
-            filter.mesh = artworkMesh;
+            filter.mesh = CreateQuadMesh(aspect); // pass only aspect
 
             MeshRenderer meshRenderer = newImageGo.AddComponent<MeshRenderer>();
             Material newMat = new Material(Shader.Find("Unlit/Texture"));
-
             newMat.mainTexture = texture;
             meshRenderer.material = newMat;
 
@@ -201,7 +207,7 @@ namespace Imagine.WebAR
             var info = new ImageTargetInfo();
             imageTargets.Add(newTarget);
             targets.Add(newTarget.id, newTarget);
-            
+
             info.id = newTarget.id;
             info.texture = texture;
             imageTrackerGlobalSettings.imageTargetInfos.Add(info);
@@ -211,8 +217,46 @@ namespace Imagine.WebAR
             go.GetComponent<VidPlayerUrl>().SetVideoUrl(videoUrl);
             StartCoroutine(Setup());
 
+            Canvas canvas = go.GetComponent<Canvas>();
+            RectTransform rectTransform = canvas.GetComponent<RectTransform>();
+
+            // Canvas sizeDelta in world units (1 unit = 100 pixels by default in Unity)
+            // So multiply by 100 to match world scale
+            rectTransform.sizeDelta = new Vector2(worldWidth * 72f, worldHeight * 72f);
+            rectTransform.localPosition = Vector3.zero;
+            rectTransform.localRotation = Quaternion.identity;
         }
 
+        private Mesh CreateQuadMesh(float aspect)
+        {
+            float halfW = aspect / 2f;
+            float halfH = 0.5f;
+
+            Mesh mesh = new Mesh();
+
+            mesh.vertices = new Vector3[]
+            {
+        new Vector3(-halfW, -halfH, 0),
+        new Vector3( halfW, -halfH, 0),
+        new Vector3(-halfW,  halfH, 0),
+        new Vector3( halfW,  halfH, 0)
+            };
+
+            mesh.triangles = new int[] { 0, 2, 1, 2, 3, 1 };
+
+            mesh.uv = new Vector2[]
+            {
+        new Vector2(0, 0),
+        new Vector2(1, 0),
+        new Vector2(0, 1),
+        new Vector2(1, 1)
+            };
+
+            mesh.RecalculateNormals();
+            mesh.RecalculateBounds();
+
+            return mesh;
+        }
         private IEnumerator Setup()
         {
             print("image tracker started");

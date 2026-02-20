@@ -33,10 +33,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 5580961772090380238}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 71.24, y: 100}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8857235441683354688
 CanvasRenderer:
@@ -138,7 +138,7 @@ RectTransform:
   m_GameObject: {fileID: 7973725574023317840}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -0.01}
-  m_LocalScale: {x: 0.0101, y: 0.0101, z: 0.0101}
+  m_LocalScale: {x: 0.0138, y: 0.0138, z: 0.0138}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4534210892495876453}
@@ -262,11 +262,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 107646368123285543, guid: b542dfe51e3819745ad5af7b87c9f60b, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 50
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 107646368123285543, guid: b542dfe51e3819745ad5af7b87c9f60b, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 50
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 107646368123285543, guid: b542dfe51e3819745ad5af7b87c9f60b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -322,11 +322,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8639646540700262018, guid: b542dfe51e3819745ad5af7b87c9f60b, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 50
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 8639646540700262018, guid: b542dfe51e3819745ad5af7b87c9f60b, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 50
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:

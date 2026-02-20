@@ -8,6 +8,7 @@
 /[Oo]bj/
 /[Bb]uild/
 /[Bb]uilds/
+/[Ww]ebBuild/
 /[Ll]ogs/
 /[Uu]ser[Ss]ettings/
 *.log
@@ -63,6 +64,7 @@ sysinfo.txt
 *.unitypackage
 *.unitypackage.meta
 *.app
+*.zip
 
 # Crashlytics generated file
 crashlytics-build.properties
