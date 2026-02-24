@@ -578,7 +578,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 18}
   m_SizeDelta: {x: 400.0443, y: 110.6926}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1934926073
@@ -748,12 +748,12 @@ MonoBehaviour:
       maxFrameLength: 500
       maxFrameArea: 80
       trackedPoints: 80
-      poseCorrectionInterval: 1500
+      poseCorrectionInterval: 200
       detectInterval: 200
       detectability: 0.5
       detectZone: 0
-    useExtraSmoothing: 0
-    smoothenFactor: 10
+    useExtraSmoothing: 1
+    smoothenFactor: 15
     debugMode: 0
   imageTrackerGlobalSettings: {fileID: 11400000, guid: 0fd715d905f4f4837acc297af82b90d7, type: 2}
   dontDeactivateOnLost: 0

@@ -5,18 +5,19 @@ using UnityEngine;
 using UnityEngine.Networking;
 public class DataPreloader : MonoBehaviour
 {
-    //[SerializeField] private string apiUrl = "https://api.scripictural.tecshield.net//api/artworks/public/698f0ecd52abbdb60de402f1";
     [SerializeField] private ImageTracker tracker;
+    [SerializeField] GameObject txtGo;
+
     private string baseUrl = "https://api.scripictural.tecshield.net//api/artworks/public/";
     private string apiId;
     private string apiUrl;
-    [SerializeField] GameObject txtGo;
+
     private void Start()
     {
         //StartCoroutine(GetApiResponse());
         txtGo.gameObject.SetActive(true);
-        //OnArtworkIdReceived("6996b3ee10215ae8f4cd72ca");
-        //OnArtworkIdReceived("6996c4e23df07136b93b0e24");
+        //OnArtworkIdReceived("699bbb2ee98985d7082b199a");
+        //OnArtworkIdReceived("699bd714e009537692dc4d09");
     }
     public void OnArtworkIdReceived(string id)
     {

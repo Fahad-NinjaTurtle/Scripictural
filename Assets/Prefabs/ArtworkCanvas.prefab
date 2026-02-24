@@ -228,6 +228,7 @@ MonoBehaviour:
   player: {fileID: 8520168072529434219}
   videoDisplay: {fileID: 4123927513433901858}
   loading: {fileID: 5176059175766165093}
+  renderTexture: {fileID: 8400000, guid: 4b341532bb709404b91e8a64fecef916, type: 2}
 --- !u!1001 &189961262589695821
 PrefabInstance:
   m_ObjectHideFlags: 0

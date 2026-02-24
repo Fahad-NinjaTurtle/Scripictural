@@ -7,6 +7,7 @@ public class VidPlayerUrl : MonoBehaviour
     [SerializeField] private VideoPlayer player;
     [SerializeField] RawImage videoDisplay;
     [SerializeField] GameObject loading;
+    [SerializeField] RenderTexture renderTexture;
     private string videoUrl;
     private void OnEnable()
     {
@@ -52,5 +53,13 @@ public class VidPlayerUrl : MonoBehaviour
         videoUrl = url;
         print(videoUrl);
         TryPlayVideo();
+    }
+
+    public void ChangeRenderTextureSize(int x, int y)
+    {
+        renderTexture.Release();
+        renderTexture.width = x;
+        renderTexture.height = y;   
+        renderTexture.Create();
     }
 }

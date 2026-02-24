@@ -178,6 +178,8 @@ namespace Imagine.WebAR
         public void CreateRuntimeImageTarget(Texture2D texture, string videoUrl)
         {
             print("Creating target image");
+            print("Image height " + texture.height);
+            print("Image width " + texture.width);
 
             // Only use pixel dims for aspect ratio, not for world size
             float aspect = (float)texture.width / texture.height;
@@ -216,13 +218,14 @@ namespace Imagine.WebAR
             GameObject go = Instantiate(artworkCanvas, newImageGo.transform);
             go.GetComponent<VidPlayerUrl>().SetVideoUrl(videoUrl);
             StartCoroutine(Setup());
+            go.GetComponent<VidPlayerUrl>().ChangeRenderTextureSize(texture.width / 4, texture.height / 4);
 
             Canvas canvas = go.GetComponent<Canvas>();
             RectTransform rectTransform = canvas.GetComponent<RectTransform>();
 
             // Canvas sizeDelta in world units (1 unit = 100 pixels by default in Unity)
             // So multiply by 100 to match world scale
-            rectTransform.sizeDelta = new Vector2(worldWidth * 72f, worldHeight * 72f);
+            rectTransform.sizeDelta = new Vector2(worldWidth * 73f, worldHeight * 73f);
             rectTransform.localPosition = Vector3.zero;
             rectTransform.localRotation = Quaternion.identity;
         }
