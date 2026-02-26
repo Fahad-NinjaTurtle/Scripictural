@@ -745,15 +745,15 @@ MonoBehaviour:
     maxSimultaneousTargets: 1
     targetFrameRate: 30
     advancedSettings:
-      maxFrameLength: 500
+      maxFrameLength: 300
       maxFrameArea: 80
       trackedPoints: 80
-      poseCorrectionInterval: 200
+      poseCorrectionInterval: 1500
       detectInterval: 200
       detectability: 0.5
       detectZone: 0
-    useExtraSmoothing: 1
-    smoothenFactor: 15
+    useExtraSmoothing: 0
+    smoothenFactor: 10
     debugMode: 0
   imageTrackerGlobalSettings: {fileID: 11400000, guid: 0fd715d905f4f4837acc297af82b90d7, type: 2}
   dontDeactivateOnLost: 0

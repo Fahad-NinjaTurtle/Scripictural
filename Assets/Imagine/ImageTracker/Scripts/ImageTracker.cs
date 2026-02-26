@@ -220,14 +220,31 @@ namespace Imagine.WebAR
             StartCoroutine(Setup());
             go.GetComponent<VidPlayerUrl>().ChangeRenderTextureSize(texture.width / 4, texture.height / 4);
 
+            //Canvas canvas = go.GetComponent<Canvas>();
+            //RectTransform rectTransform = canvas.GetComponent<RectTransform>();
+
+            ////rectTransform.sizeDelta = new Vector2(worldWidth * 73f, worldHeight * 73f);
+            //rectTransform.sizeDelta = new Vector2(worldWidth * canvas.referencePixelsPerUnit, worldHeight * canvas.referencePixelsPerUnit);
+            //rectTransform.localPosition = Vector3.zero;
+            //rectTransform.localRotation = Quaternion.identity;
+
             Canvas canvas = go.GetComponent<Canvas>();
             RectTransform rectTransform = canvas.GetComponent<RectTransform>();
 
-            // Canvas sizeDelta in world units (1 unit = 100 pixels by default in Unity)
-            // So multiply by 100 to match world scale
-            rectTransform.sizeDelta = new Vector2(worldWidth * 73f, worldHeight * 73f);
+            float ppu = canvas.referencePixelsPerUnit;
+
+            // Landscape images render ~40% larger in WebGL world space, compensate
+            float landscapeCorrection = (aspect > 1f) ? (1f / aspect) : 1f;
+
+            rectTransform.sizeDelta = new Vector2(
+                worldWidth * ppu * landscapeCorrection,
+                worldHeight * ppu * landscapeCorrection
+            );
             rectTransform.localPosition = Vector3.zero;
             rectTransform.localRotation = Quaternion.identity;
+
+            print("Aspect is " + aspect);
+
         }
 
         private Mesh CreateQuadMesh(float aspect)

@@ -138,7 +138,7 @@ RectTransform:
   m_GameObject: {fileID: 7973725574023317840}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -0.01}
-  m_LocalScale: {x: 0.0138, y: 0.0138, z: 0.0138}
+  m_LocalScale: {x: 0.0102, y: 0.0102, z: 0.0102}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4534210892495876453}
@@ -316,6 +316,14 @@ PrefabInstance:
     - target: {fileID: 107646368123285543, guid: b542dfe51e3819745ad5af7b87c9f60b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1649964793722142060, guid: b542dfe51e3819745ad5af7b87c9f60b, type: 3}
+      propertyPath: m_PreserveAspect
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2961671039033507154, guid: b542dfe51e3819745ad5af7b87c9f60b, type: 3}
+      propertyPath: m_PreserveAspect
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5005731909495410984, guid: b542dfe51e3819745ad5af7b87c9f60b, type: 3}
       propertyPath: m_Name

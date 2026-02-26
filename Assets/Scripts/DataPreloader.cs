@@ -18,6 +18,9 @@ public class DataPreloader : MonoBehaviour
         txtGo.gameObject.SetActive(true);
         //OnArtworkIdReceived("699bbb2ee98985d7082b199a");
         //OnArtworkIdReceived("699bd714e009537692dc4d09");
+        //OnArtworkIdReceived("699e5f4ffcb260f3f402589d");
+        //OnArtworkIdReceived("699e83329e0cec0100b6e5a2");
+        //OnArtworkIdReceived("699e80e89e0cec0100b6e575");
     }
     public void OnArtworkIdReceived(string id)
     {
