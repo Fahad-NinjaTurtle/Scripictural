@@ -13,13 +13,19 @@ public class VidPlayerUrl : MonoBehaviour
     {
         TryPlayVideo();
 
-        if(Application.platform == RuntimePlatform.Android)
+        if (Application.platform == RuntimePlatform.Android || true)
         {
-            videoDisplay.gameObject.transform.localScale = new Vector3(15, 19, 1);
-            loading.gameObject.transform.localScale = new Vector3(15, 25, 1);
+            videoDisplay.gameObject.transform.rotation = Quaternion.Euler(90, 0, 0);
+            loading.gameObject.transform.rotation = Quaternion.Euler(90, 0,0);
         }
-    }
 
+
+    }
+    private void Update()
+    {
+        videoDisplay.gameObject.transform.rotation = Quaternion.Euler(-360, 0, 0);
+        loading.gameObject.transform.rotation = Quaternion.Euler(-360, 0, 0);
+    }
     private void TryPlayVideo()
     {
         loading.SetActive(true);
@@ -53,8 +59,8 @@ public class VidPlayerUrl : MonoBehaviour
         videoUrl = url;
         print(videoUrl);
         TryPlayVideo();
-    }
 
+    }
     public void ChangeRenderTextureSize(int x, int y)
     {
         renderTexture.Release();
