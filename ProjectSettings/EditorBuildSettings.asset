@@ -8,12 +8,15 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/NativeArScene.unity
     guid: 64a715f14b2dc7d48855e4b995d61a0f
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/WebArScene.unity
     guid: 83aed433a71864547b53fcd35d12efc1
+  - enabled: 0
+    path: Assets/QRcode/Scenes/QRScanScene.unity
+    guid: 724ccd96f8f94144bbd76e0cec804ba2
   m_configObjects:
     UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: e5edcb1abb5318449ad5bbffd9723629, type: 2}
     UnityEditor.XR.ARKit.ARKitSettings: {fileID: 11400000, guid: 86c3a6ec127897a4981f870e2afff481, type: 2}
