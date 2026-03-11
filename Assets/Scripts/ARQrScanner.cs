@@ -21,7 +21,10 @@ public class ARQrScanner : MonoBehaviour
     [SerializeField] private float scanInterval = 0.25f;
     [SerializeField] private bool autoStopOnDetect = true;
 
+    [SerializeField] ARDynamicTracker arDynamicTracker; 
+
     public Action<string> OnQrDetected;
+    public Action<string> OnArtworkIdDetected;
 
     private bool isScanning;
     private float nextScanTime;
@@ -65,7 +68,16 @@ public class ARQrScanner : MonoBehaviour
             cameraTexture = null;
         }
     }
+    private void Start()
+    {
+        OnQrCodeFound("https://api.scripictural.tecshield.net/api/artworks/public/699e98ac2b4731e78c3f1ff4");
+        Invoke(nameof(InvokeQrCode), 40f);
+    }
 
+    private void InvokeQrCode()
+    {
+        OnQrCodeFound("https://api.scripictural.tecshield.net/api/artworks/public/699e5f4ffcb260f3f402589d");
+    }
     public void StartScanning()
     {
         if (arCameraManager == null)
@@ -158,10 +170,39 @@ public class ARQrScanner : MonoBehaviour
 
         OnQrDetected?.Invoke(decodedText);
 
+        string artworkId = ExtractArtworkIdFromUrl(decodedText);
+        if (!string.IsNullOrEmpty(artworkId))
+        {
+            Debug.Log("Artwork ID extracted: " + artworkId);
+            OnArtworkIdDetected?.Invoke(artworkId);
+            arDynamicTracker.OnArtworkIdReceived(artworkId);
+        }
+        else
+        {
+            Debug.LogWarning("Could not extract artwork ID from QR text: " + decodedText);
+        }
+
         if (autoStopOnDetect)
             StopScanning();
     }
+    public static string ExtractArtworkIdFromUrl(string value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+            return null;
 
+        if (!Uri.TryCreate(value.Trim(), UriKind.Absolute, out Uri uri))
+            return null;
+
+        string path = uri.AbsolutePath.Trim('/');
+        if (string.IsNullOrWhiteSpace(path))
+            return null;
+
+        string[] parts = path.Split('/');
+        if (parts.Length == 0)
+            return null;
+
+        return parts[parts.Length - 1];
+    }
     public bool IsValidUrl(string value)
     {
         return Uri.TryCreate(value, UriKind.Absolute, out Uri uri) &&

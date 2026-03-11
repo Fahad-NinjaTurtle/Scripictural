@@ -7,13 +7,25 @@ using UnityEngine.XR.ARSubsystems;
 
 public class ARDynamicTracker : MonoBehaviour
 {
+    //[System.Serializable]
+    //private class RuntimeArtworkData
+    //{
+    //    public string videoUrl;
+    //    public float textureWidth;
+    //    public float textureHeight;
+    //    public float aspect;
+    //}
+
     [System.Serializable]
-    private class RuntimeArtworkData
+    public class RuntimeArtworkData
     {
+        public string imageUrl;
         public string videoUrl;
         public float textureWidth;
         public float textureHeight;
         public float aspect;
+        public Texture2D markerTexture;
+        public string runtimeImageName;
     }
 
     [SerializeField] private ARTrackedImageManager trackedImageManager;
@@ -23,8 +35,14 @@ public class ARDynamicTracker : MonoBehaviour
 
     private readonly Dictionary<string, RuntimeArtworkData> runtimeArtworkMap = new();
     private readonly Dictionary<string, GameObject> spawnedArtworks = new();
+    private readonly Dictionary<string, string> artworkIdToRuntimeName = new();
+
+    [SerializeField] GameObject imageDownloadingTextGO;
 
     private string baseUrl = "https://api.scripictural.tecshield.net/api/artworks/public/";
+
+    private MutableRuntimeReferenceImageLibrary mutableLibrary;
+    private readonly HashSet<string> processingArtworkIds = new();
 
     private void OnEnable()
     {
@@ -40,26 +58,98 @@ public class ARDynamicTracker : MonoBehaviour
 
     private void Start()
     {
+        if (trackedImageManager == null)
+        {
+            Debug.LogError("TrackedImageManager is not assigned.");
+            return;
+        }
+
+        mutableLibrary = trackedImageManager.CreateRuntimeLibrary() as MutableRuntimeReferenceImageLibrary;
+
+        if (mutableLibrary == null)
+        {
+            Debug.LogError("Device does not support mutable image libraries.");
+            return;
+        }
+
+        trackedImageManager.referenceLibrary = mutableLibrary;
         trackedImageManager.enabled = false;
+
         //OnArtworkIdReceived("69a134b95a210c8963b39f79");
-        //OnArtworkIdReceived("699e5f4ffcb260f3f402589d");
+        //OnArtworkIdReceived("699e5f4ffcb260f3f402589d ");
         //OnArtworkIdReceived("699e98ac2b4731e78c3f1ff4");
     }
 
-    public void OnArtworkIdReceived(string id)
+    //public void OnArtworkIdReceived(string id)
+    //{
+    //    if (string.IsNullOrWhiteSpace(id))
+    //    {
+    //        Debug.LogError("Artwork ID is null or empty.");
+    //        return;
+    //    }
+
+    //    string apiUrl = baseUrl + id;
+    //    StartCoroutine(GetApiResponse(apiUrl));
+    //}
+
+    public void OnArtworkIdReceived(string artworkId)
     {
-        if (string.IsNullOrWhiteSpace(id))
+        if (string.IsNullOrWhiteSpace(artworkId))
         {
             Debug.LogError("Artwork ID is null or empty.");
             return;
         }
 
-        string apiUrl = baseUrl + id;
-        StartCoroutine(GetApiResponse(apiUrl));
+        if (artworkIdToRuntimeName.ContainsKey(artworkId))
+        {
+            Debug.Log("Artwork already added to runtime library: " + artworkId);
+            return;
+        }
+
+        if (processingArtworkIds.Contains(artworkId))
+        {
+            Debug.Log("Artwork is already being processed: " + artworkId);
+            return;
+        }
+
+        string apiUrl = baseUrl + artworkId;
+        StartCoroutine(GetApiResponse(apiUrl, artworkId));
     }
 
-    private IEnumerator GetApiResponse(string apiUrl)
+    //private IEnumerator GetApiResponse(string apiUrl)
+    //{
+    //    imageDownloadingTextGO.SetActive(true);
+    //    using UnityWebRequest request = UnityWebRequest.Get(apiUrl);
+    //    request.SetRequestHeader("Accept", "application/json");
+    //    request.SetRequestHeader("Content-Type", "application/json");
+    //    request.SetRequestHeader("User-Agent", "UnityPlayer");
+
+    //    yield return request.SendWebRequest();
+
+    //    if (request.result != UnityWebRequest.Result.Success)
+    //    {
+    //        Debug.LogError("API Error: " + request.error);
+    //        yield break;
+    //    }
+
+    //    string json = request.downloadHandler.text;
+    //    Debug.Log("API Response: " + json);
+
+    //    ApiResponse response = JsonUtility.FromJson<ApiResponse>(json);
+    //    if (response == null || response.data == null)
+    //    {
+    //        Debug.LogError("Invalid API response.");
+    //        yield break;
+    //    }
+    //    imageDownloadingTextGO.SetActive(false);
+    //    yield return StartCoroutine(SetupARTarget(response.data.imageURL, response.data.videoURL));
+    //}
+
+    private IEnumerator GetApiResponse(string apiUrl, string artworkId)
     {
+        processingArtworkIds.Add(artworkId);
+        imageDownloadingTextGO.SetActive(true);
+
         using UnityWebRequest request = UnityWebRequest.Get(apiUrl);
         request.SetRequestHeader("Accept", "application/json");
         request.SetRequestHeader("Content-Type", "application/json");
@@ -70,6 +160,8 @@ public class ARDynamicTracker : MonoBehaviour
         if (request.result != UnityWebRequest.Result.Success)
         {
             Debug.LogError("API Error: " + request.error);
+            processingArtworkIds.Remove(artworkId);
+            imageDownloadingTextGO.SetActive(false);
             yield break;
         }
 
@@ -80,14 +172,99 @@ public class ARDynamicTracker : MonoBehaviour
         if (response == null || response.data == null)
         {
             Debug.LogError("Invalid API response.");
+            processingArtworkIds.Remove(artworkId);
+            imageDownloadingTextGO.SetActive(false);
             yield break;
         }
 
-        yield return StartCoroutine(SetupARTarget(response.data.imageURL, response.data.videoURL));
+        yield return StartCoroutine(SetupARTarget(artworkId, response.data.imageURL, response.data.videoURL));
+
+        processingArtworkIds.Remove(artworkId);
+        imageDownloadingTextGO.SetActive(false);
     }
 
-    private IEnumerator SetupARTarget(string imageUrl, string videoUrl)
+    //private IEnumerator SetupARTarget(string imageUrl, string videoUrl)
+    //{
+    //    using UnityWebRequest imageRequest = UnityWebRequestTexture.GetTexture(imageUrl);
+    //    yield return imageRequest.SendWebRequest();
+
+    //    if (imageRequest.result != UnityWebRequest.Result.Success)
+    //    {
+    //        Debug.LogError("Image Download Error: " + imageRequest.error);
+    //        yield break;
+    //    }
+
+    //    Texture2D texture = DownloadHandlerTexture.GetContent(imageRequest);
+    //    if (texture == null)
+    //    {
+    //        Debug.LogError("Downloaded texture is null.");
+    //        yield break;
+    //    }
+
+    //    MutableRuntimeReferenceImageLibrary mutableLibrary =
+    //        trackedImageManager.CreateRuntimeLibrary() as MutableRuntimeReferenceImageLibrary;
+
+    //    if (mutableLibrary == null)
+    //    {
+    //        Debug.LogError("Device does not support mutable image libraries.");
+    //        yield break;
+    //    }
+
+    //    string imageName = System.Guid.NewGuid().ToString();
+    //    float aspect = (float)texture.width / texture.height;
+
+    //    //runtimeArtworkMap[imageName] = new RuntimeArtworkData
+    //    //{
+    //    //    videoUrl = videoUrl,
+    //    //    textureWidth = texture.width,
+    //    //    textureHeight = texture.height,
+    //    //    aspect = aspect
+    //    //};
+
+    //    runtimeArtworkMap[imageName] = new RuntimeArtworkData
+    //    {
+    //        imageUrl = imageUrl,
+    //        videoUrl = videoUrl,
+    //        textureWidth = texture.width,
+    //        textureHeight = texture.height,
+    //        aspect = aspect,
+    //        markerTexture = texture,
+    //        runtimeImageName = imageName
+    //    };
+
+    //    var jobHandle = mutableLibrary.ScheduleAddImageWithValidationJob(
+    //        texture,
+    //        imageName,
+    //        physicalWidthMeters
+    //    );
+
+    //    yield return new WaitUntil(() =>
+    //        jobHandle.status == AddReferenceImageJobStatus.Success ||
+    //        jobHandle.status == AddReferenceImageJobStatus.ErrorUnknown ||
+    //        jobHandle.status == AddReferenceImageJobStatus.ErrorInvalidImage
+    //    );
+
+    //    if (jobHandle.status != AddReferenceImageJobStatus.Success)
+    //    {
+    //        Debug.LogError("Failed to add image to AR library. Status: " + jobHandle.status);
+    //        yield break;
+    //    }
+
+    //    trackedImageManager.referenceLibrary = mutableLibrary;
+    //    trackedImageManager.enabled = true;
+
+    //    Debug.Log("Image added to AR library successfully.");
+    //}
+
+
+    private IEnumerator SetupARTarget(string artworkId, string imageUrl, string videoUrl)
     {
+        if (mutableLibrary == null)
+        {
+            Debug.LogError("Mutable runtime image library is not initialized.");
+            yield break;
+        }
+
         using UnityWebRequest imageRequest = UnityWebRequestTexture.GetTexture(imageUrl);
         yield return imageRequest.SendWebRequest();
 
@@ -104,25 +281,21 @@ public class ARDynamicTracker : MonoBehaviour
             yield break;
         }
 
-        MutableRuntimeReferenceImageLibrary mutableLibrary =
-            trackedImageManager.CreateRuntimeLibrary() as MutableRuntimeReferenceImageLibrary;
-
-        if (mutableLibrary == null)
-        {
-            Debug.LogError("Device does not support mutable image libraries.");
-            yield break;
-        }
-
-        string imageName = System.Guid.NewGuid().ToString();
+        string imageName = artworkId;
         float aspect = (float)texture.width / texture.height;
 
         runtimeArtworkMap[imageName] = new RuntimeArtworkData
         {
+            imageUrl = imageUrl,
             videoUrl = videoUrl,
             textureWidth = texture.width,
             textureHeight = texture.height,
-            aspect = aspect
+            aspect = aspect,
+            markerTexture = texture,
+            runtimeImageName = imageName
         };
+
+        artworkIdToRuntimeName[artworkId] = imageName;
 
         var jobHandle = mutableLibrary.ScheduleAddImageWithValidationJob(
             texture,
@@ -133,21 +306,25 @@ public class ARDynamicTracker : MonoBehaviour
         yield return new WaitUntil(() =>
             jobHandle.status == AddReferenceImageJobStatus.Success ||
             jobHandle.status == AddReferenceImageJobStatus.ErrorUnknown ||
-            jobHandle.status == AddReferenceImageJobStatus.ErrorInvalidImage
+            jobHandle.status == AddReferenceImageJobStatus.ErrorInvalidImage 
         );
 
         if (jobHandle.status != AddReferenceImageJobStatus.Success)
         {
             Debug.LogError("Failed to add image to AR library. Status: " + jobHandle.status);
+            runtimeArtworkMap.Remove(imageName);
+            artworkIdToRuntimeName.Remove(artworkId);
             yield break;
         }
 
-        trackedImageManager.referenceLibrary = mutableLibrary;
-        trackedImageManager.enabled = true;
+        if (trackedImageManager.referenceLibrary != mutableLibrary)
+            trackedImageManager.referenceLibrary = mutableLibrary;
 
-        Debug.Log("Image added to AR library successfully.");
+        if (!trackedImageManager.enabled)
+            trackedImageManager.enabled = true;
+
+        Debug.Log("Image added to AR library successfully: " + imageName);
     }
-
     private void OnTrackedImagesChanged(ARTrackedImagesChangedEventArgs args)
     {
         foreach (ARTrackedImage trackedImage in args.added)
@@ -259,4 +436,5 @@ public class ARDynamicTracker : MonoBehaviour
         rect.localPosition = Vector3.zero;
         //rect.localRotation = Quaternion.identity;
     }
+
 }
