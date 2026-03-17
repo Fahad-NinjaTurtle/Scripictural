@@ -70,13 +70,13 @@ public class ARQrScanner : MonoBehaviour
     }
     private void Start()
     {
-        OnQrCodeFound("https://api.scripictural.tecshield.net/api/artworks/public/699e98ac2b4731e78c3f1ff4");
-        Invoke(nameof(InvokeQrCode), 40f);
+        //OnQrCodeFound("https://api.scripictural.tecshield.net/api/artworks/public/69b8edb09f9befc7a7cd0179");
+        Invoke(nameof(InvokeQrCode), 20f);
     }
 
     private void InvokeQrCode()
     {
-        OnQrCodeFound("https://api.scripictural.tecshield.net/api/artworks/public/699e5f4ffcb260f3f402589d");
+        OnQrCodeFound("https://api.scripictural.tecshield.net/api/artworks/public/69b8ebbb9f9befc7a7cd0156");
     }
     public void StartScanning()
     {
