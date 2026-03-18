@@ -1,6 +1,7 @@
 using System;
 using TMPro;
 using Unity.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
@@ -16,6 +17,7 @@ public class ARQrScanner : MonoBehaviour
     [SerializeField] private Button scanButton;
     [SerializeField] private Button stopButton;
     [SerializeField] private TextMeshProUGUI resultText;
+    [SerializeField] private GameObject qrAnimationPanel;
 
     [Header("Scan Settings")]
     [SerializeField] private float scanInterval = 0.25f;
@@ -52,7 +54,10 @@ public class ARQrScanner : MonoBehaviour
 
         if (stopButton != null)
             stopButton.onClick.AddListener(StopScanning);
+
+        stopButton.gameObject.SetActive(false);
     }
+    
 
     private void OnDestroy()
     {
@@ -70,13 +75,14 @@ public class ARQrScanner : MonoBehaviour
     }
     private void Start()
     {
-        OnQrCodeFound("https://api.scripictural.tecshield.net/api/artworks/public/699e98ac2b4731e78c3f1ff4");
-        Invoke(nameof(InvokeQrCode), 40f);
+        //OnQrCodeFound("https://api.scripictural.tecshield.net/api/artworks/public/69b8ebbb9f9befc7a7cd0156");
+        //OnQrCodeFound("https://d1j44teybnnehj.cloudfront.net/?id=69b8ebbb9f9befc7a7cd0156");
+        //Invoke(nameof(InvokeQrCode), 15f);
     }
 
     private void InvokeQrCode()
     {
-        OnQrCodeFound("https://api.scripictural.tecshield.net/api/artworks/public/699e5f4ffcb260f3f402589d");
+        //OnQrCodeFound("https://api.scripictural.tecshield.net/api/artworks/public/69b8edb09f9befc7a7cd0179");
     }
     public void StartScanning()
     {
@@ -89,12 +95,18 @@ public class ARQrScanner : MonoBehaviour
         isScanning = true;
         nextScanTime = 0f;
 
+        qrAnimationPanel.SetActive(true);
+        stopButton.gameObject.SetActive(true);
+        scanButton.gameObject.SetActive(false);
         if (resultText != null)
             resultText.text = "Scanning QR...";
     }
 
     public void StopScanning()
     {
+        qrAnimationPanel.SetActive(false);
+        stopButton.gameObject.SetActive(false);
+        scanButton.gameObject.SetActive(true);
         isScanning = false;
     }
 
@@ -113,6 +125,9 @@ public class ARQrScanner : MonoBehaviour
     private void TryScanQr()
     {
         if (!arCameraManager.TryAcquireLatestCpuImage(out XRCpuImage cpuImage))
+            return;
+
+        if(!isScanning)
             return;
 
         try
@@ -164,6 +179,7 @@ public class ARQrScanner : MonoBehaviour
     private void OnQrCodeFound(string decodedText)
     {
         Debug.Log("QR detected: " + decodedText);
+        qrAnimationPanel.SetActive(false);
 
         if (resultText != null)
             resultText.text = decodedText;
@@ -185,6 +201,25 @@ public class ARQrScanner : MonoBehaviour
         if (autoStopOnDetect)
             StopScanning();
     }
+    //public static string ExtractArtworkIdFromUrl(string value)
+    //{
+    //    if (string.IsNullOrWhiteSpace(value))
+    //        return null;
+
+    //    if (!Uri.TryCreate(value.Trim(), UriKind.Absolute, out Uri uri))
+    //        return null;
+
+    //    string path = uri.AbsolutePath.Trim('/');
+    //    if (string.IsNullOrWhiteSpace(path))
+    //        return null;
+
+    //    string[] parts = path.Split('/');
+    //    if (parts.Length == 0)
+    //        return null;
+
+    //    return parts[parts.Length - 1];
+    //}
+
     public static string ExtractArtworkIdFromUrl(string value)
     {
         if (string.IsNullOrWhiteSpace(value))
@@ -193,15 +228,28 @@ public class ARQrScanner : MonoBehaviour
         if (!Uri.TryCreate(value.Trim(), UriKind.Absolute, out Uri uri))
             return null;
 
-        string path = uri.AbsolutePath.Trim('/');
-        if (string.IsNullOrWhiteSpace(path))
+        // Get query string (?id=xxxx)
+        string query = uri.Query;
+        if (string.IsNullOrEmpty(query))
             return null;
 
-        string[] parts = path.Split('/');
-        if (parts.Length == 0)
-            return null;
+        // Remove '?'
+        query = query.TrimStart('?');
 
-        return parts[parts.Length - 1];
+        // Parse key-value pairs
+        string[] pairs = query.Split('&');
+        foreach (var pair in pairs)
+        {
+            string[] kv = pair.Split('=');
+            if (kv.Length == 2 && kv[0] == "id")
+            {
+                print(kv[1]);
+                return kv[1];
+
+            }
+        }
+
+        return null;
     }
     public bool IsValidUrl(string value)
     {
