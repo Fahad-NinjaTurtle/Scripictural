@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -7,8 +7,6 @@ using UnityEngine.XR.ARSubsystems;
 
 public class ARDynamicTracker : MonoBehaviour
 {
-
-
     [System.Serializable]
     public class RuntimeArtworkData
     {
@@ -67,9 +65,7 @@ public class ARDynamicTracker : MonoBehaviour
 
         trackedImageManager.referenceLibrary = mutableLibrary;
         trackedImageManager.enabled = false;
-
     }
-
 
     public void OnArtworkIdReceived(string artworkId)
     {
@@ -99,7 +95,6 @@ public class ARDynamicTracker : MonoBehaviour
         string apiUrl = baseUrl + artworkId;
         StartCoroutine(GetApiResponse(apiUrl, artworkId));
     }
-
 
     private IEnumerator GetApiResponse(string apiUrl, string artworkId)
     {
@@ -139,84 +134,6 @@ public class ARDynamicTracker : MonoBehaviour
         imageDownloadingTextGO.SetActive(false);
     }
 
-    //private IEnumerator SetupARTarget(string artworkId, string imageUrl, string videoUrl)
-    //{
-    //    if (mutableLibrary == null)
-    //    {
-    //        Debug.LogError("Mutable runtime image library is not initialized.");
-    //        yield break;
-    //    }
-
-    //    using UnityWebRequest imageRequest = UnityWebRequestTexture.GetTexture(imageUrl);
-    //    yield return imageRequest.SendWebRequest();
-
-    //    if (imageRequest.result != UnityWebRequest.Result.Success)
-    //    {
-    //        Debug.LogError("Image Download Error: " + imageRequest.error);
-    //        yield break;
-    //    }
-
-    //    Texture2D texture = DownloadHandlerTexture.GetContent(imageRequest);
-    //    if (texture == null)
-    //    {
-    //        Debug.LogError("Downloaded texture is null.");
-    //        yield break;
-    //    }
-
-    //    string imageName = artworkId;
-    //    float aspect = (float)texture.width / texture.height;
-
-    //    runtimeArtworkMap[imageName] = new RuntimeArtworkData
-    //    {
-    //        imageUrl = imageUrl,
-    //        videoUrl = videoUrl,
-    //        textureWidth = texture.width,
-    //        textureHeight = texture.height,
-    //        aspect = aspect,
-    //        markerTexture = texture,
-    //        runtimeImageName = imageName
-    //    };
-
-    //    artworkIdToRuntimeName[artworkId] = imageName;
-
-    //    var jobHandle = mutableLibrary.ScheduleAddImageWithValidationJob(
-    //        texture,
-    //        imageName,
-    //        physicalWidthMeters
-    //    );
-
-    //    yield return new WaitUntil(() =>
-    //        jobHandle.status == AddReferenceImageJobStatus.Success ||
-    //        jobHandle.status == AddReferenceImageJobStatus.ErrorUnknown ||
-    //        jobHandle.status == AddReferenceImageJobStatus.ErrorInvalidImage 
-    //    );
-
-    //    if (jobHandle.status != AddReferenceImageJobStatus.Success)
-    //    {
-    //        Debug.LogError("Failed to add image to AR library. Status: " + jobHandle.status);
-    //        runtimeArtworkMap.Remove(imageName);
-    //        artworkIdToRuntimeName.Remove(artworkId);
-    //        yield break;
-    //    }
-
-    //    if (trackedImageManager.referenceLibrary != mutableLibrary)
-    //        trackedImageManager.referenceLibrary = mutableLibrary;
-
-    //    if (!trackedImageManager.enabled)
-    //        trackedImageManager.enabled = true;
-
-    //    StartCoroutine(CycleTrackedImageManager());
-    //    Debug.Log($"Image added to AR library successfully: {imageName} " +
-    //              $"| Library image count: {mutableLibrary.count}");
-    //}
-
-    //private IEnumerator CycleTrackedImageManager()
-    //{
-    //    trackedImageManager.enabled = false;
-    //    yield return null; 
-    //    trackedImageManager.enabled = true;
-    //    Debug.Log("ARTrackedImageManager cycled. Library count: " + mutableLibrary.count);
-    //}
     private IEnumerator SetupARTarget(string artworkId, string imageUrl, string videoUrl)
     {
         if (mutableLibrary == null)
@@ -277,7 +194,6 @@ public class ARDynamicTracker : MonoBehaviour
             yield break;
         }
 
-        // First image: just enable the manager normally
         if (!trackedImageManager.enabled)
         {
             trackedImageManager.enabled = true;
@@ -285,8 +201,6 @@ public class ARDynamicTracker : MonoBehaviour
         }
         else
         {
-            // Subsequent images: reassign the library reference to force subsystem refresh
-            // Do NOT disable/enable � that corrupts in-flight trackable state
             yield return StartCoroutine(RefreshLibraryReference());
         }
 
@@ -295,17 +209,10 @@ public class ARDynamicTracker : MonoBehaviour
 
     private IEnumerator RefreshLibraryReference()
     {
-        // Collect currently spawned image names so we can restore visibility
         var activeNames = new HashSet<string>(spawnedArtworks.Keys);
-
-        // Reassigning the same mutableLibrary reference forces the subsystem
-        // to re-query the library contents without tearing down tracked state
         trackedImageManager.referenceLibrary = mutableLibrary;
-
-        // Wait two frames for the subsystem to process the reassignment
         yield return null;
         yield return null;
-
         Debug.Log($"Library reference refreshed. Active artworks: {activeNames.Count}");
     }
 
@@ -348,7 +255,8 @@ public class ARDynamicTracker : MonoBehaviour
         }
 
         GameObject go = Instantiate(artworkPrefab, trackedImage.transform);
-        go.transform.localPosition = Vector3.zero;
+        go.transform.position = trackedImage.transform.position;
+        go.transform.rotation = trackedImage.transform.rotation;
 
         VidPlayerUrl vidScript = go.GetComponentInChildren<VidPlayerUrl>(true);
         if (vidScript != null)
@@ -391,14 +299,20 @@ public class ARDynamicTracker : MonoBehaviour
         if (!runtimeArtworkMap.TryGetValue(imageName, out RuntimeArtworkData data))
             return;
 
+        go.transform.position = trackedImage.transform.position;
+        go.transform.rotation = trackedImage.transform.rotation;
+
         Vector2 detectedSize = trackedImage.size;
         if (detectedSize.x <= 0f || detectedSize.y <= 0f)
             return;
 
-        float targetWidth = detectedSize.x;
-        float targetHeight = targetWidth / data.aspect;
-
-        if (data.aspect < 1f)
+        float targetWidth, targetHeight;
+        if (data.aspect >= 1f)
+        {
+            targetWidth = detectedSize.x;
+            targetHeight = targetWidth / data.aspect;
+        }
+        else
         {
             targetHeight = detectedSize.y;
             targetWidth = targetHeight * data.aspect;
@@ -408,17 +322,27 @@ public class ARDynamicTracker : MonoBehaviour
         if (canvas == null)
             return;
 
+        if (canvas.renderMode != RenderMode.WorldSpace)
+        {
+            Debug.LogWarning("Canvas render mode should be World Space for AR tracking.");
+        }
+
         RectTransform rect = canvas.GetComponent<RectTransform>();
         if (rect == null)
             return;
 
         float ppu = canvas.referencePixelsPerUnit;
-        if (ppu <= 0f)
-            ppu = 100f;
+        if (ppu <= 0f) ppu = 100f;
 
+        // sizeDelta in canvas pixel units. The canvas localScale must be (1/ppu) so
+        // that these pixel units map 1:1 to meters. E.g. ppu=100 → scale=0.01.
         rect.sizeDelta = new Vector2(targetWidth * ppu, targetHeight * ppu);
-        rect.localPosition = Vector3.zero;
-        rect.localRotation = Quaternion.identity;
-    }
 
+        rect.localPosition = Vector3.zero;
+        rect.localRotation = Quaternion.Euler(90f, 0f, 0f);
+
+        // FIX 5: Ensure canvas scale converts ppu → meters correctly.
+        float worldScale = 1.01f / ppu;
+        rect.localScale = new Vector3(worldScale, worldScale, worldScale);
+    }
 }

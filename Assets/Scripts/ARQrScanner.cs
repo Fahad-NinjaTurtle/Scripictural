@@ -76,7 +76,7 @@ public class ARQrScanner : MonoBehaviour
     private void Start()
     {
         //OnQrCodeFound("https://api.scripictural.tecshield.net/api/artworks/public/69b8ebbb9f9befc7a7cd0156");
-        //OnQrCodeFound("https://d1j44teybnnehj.cloudfront.net/?id=69b8ebbb9f9befc7a7cd0156");
+        OnQrCodeFound("https://d1j44teybnnehj.cloudfront.net/?id=69b8ebbb9f9befc7a7cd0156");
         //Invoke(nameof(InvokeQrCode), 15f);
     }
 
