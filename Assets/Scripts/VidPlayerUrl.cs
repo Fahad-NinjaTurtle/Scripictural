@@ -9,6 +9,8 @@ public class VidPlayerUrl : MonoBehaviour
     [SerializeField] GameObject loading;
     [SerializeField] RenderTexture renderTexture;
     private string videoUrl;
+
+    private DebugText debugText;
     private void OnEnable()
     {
         TryPlayVideo();
@@ -19,7 +21,18 @@ public class VidPlayerUrl : MonoBehaviour
             loading.gameObject.transform.rotation = Quaternion.Euler(90, 0,0);
         }
 
+        debugText = FindAnyObjectByType<DebugText>();
 
+        UpdateDebugText();
+
+    }
+
+    private void UpdateDebugText()
+    {
+        if (debugText == null || videoDisplay == null)
+            return;
+
+        debugText.UpdateRotationTexts(transform, videoDisplay.transform);
     }
     private void Update()
     {

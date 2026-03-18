@@ -23,7 +23,7 @@ public class ARQrScanner : MonoBehaviour
     [SerializeField] private float scanInterval = 0.25f;
     [SerializeField] private bool autoStopOnDetect = true;
 
-    [SerializeField] ARDynamicTracker arDynamicTracker; 
+    [SerializeField] ARDynamicTracker arDynamicTracker;
 
     public Action<string> OnQrDetected;
     public Action<string> OnArtworkIdDetected;
@@ -107,6 +107,7 @@ public class ARQrScanner : MonoBehaviour
         qrAnimationPanel.SetActive(false);
         stopButton.gameObject.SetActive(false);
         scanButton.gameObject.SetActive(true);
+        resultText.text = "";
         isScanning = false;
     }
 
